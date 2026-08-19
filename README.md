@@ -1,6 +1,6 @@
 # webmark
 
-一个使用 React、FastAPI 和 SQLite 构建的网址收藏应用，可在本地运行，也可使用 Render + Turso 部署。
+一个使用 React、FastAPI 和 SQLite 构建的网址收藏应用，可在本地运行，也可使用 Vercel + Turso 部署。
 
 ## 项目结构
 
@@ -32,7 +32,7 @@ npm run dev
 
 ## 云端部署
 
-仓库根目录的 `render.yaml` 会创建一个 FastAPI Web Service 和一个 React Static Site。部署时需要配置：
+前端和后端可分别作为 Vercel 项目部署，云端数据库使用 Turso。部署时需要配置：
 
 - `TURSO_DATABASE_URL`：Turso 数据库地址
 - `TURSO_AUTH_TOKEN`：Turso 数据库令牌
