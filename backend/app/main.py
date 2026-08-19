@@ -1,12 +1,16 @@
 from contextlib import asynccontextmanager
 import os
+from pathlib import Path
 import sqlite3
+import sys
 from urllib.parse import urlparse
 
 import requests
 from bs4 import BeautifulSoup
 from fastapi import FastAPI, HTTPException, Response
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, HttpUrl, field_validator
 from trafilatura import extract
 
@@ -359,3 +363,27 @@ def create_bookmarks(request_body: BookmarkRequest):
     page = get_page(str(request_body.url))
     save_bookmarks(page, request_body.folder)
     return Response(status_code=201)
+
+
+def frontend_directory() -> Path:
+    if getattr(sys, "frozen", False):
+        return Path(sys._MEIPASS) / "frontend_dist"
+    return Path(__file__).resolve().parents[2] / "frontend" / "dist"
+
+
+FRONTEND_DIRECTORY = frontend_directory()
+if FRONTEND_DIRECTORY.is_dir():
+    assets_directory = FRONTEND_DIRECTORY / "assets"
+    if assets_directory.is_dir():
+        app.mount("/assets", StaticFiles(directory=assets_directory), name="assets")
+
+    @app.get("/{path:path}", include_in_schema=False)
+    def serve_frontend(path: str):
+        requested_file = (FRONTEND_DIRECTORY / path).resolve()
+        if (
+            path
+            and requested_file.is_file()
+            and FRONTEND_DIRECTORY.resolve() in requested_file.parents
+        ):
+            return FileResponse(requested_file)
+        return FileResponse(FRONTEND_DIRECTORY / "index.html")

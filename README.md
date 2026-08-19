@@ -30,6 +30,15 @@ npm run dev
 
 前端默认运行在 `http://localhost:5173`，后端 API 默认运行在 `http://localhost:8000`。
 
+## 桌面应用
+
+桌面版把 React 页面和 FastAPI 服务打包为一个应用，双击即可运行。数据库保存在当前用户的数据目录：
+
+- macOS：`~/Library/Application Support/Webmark/webmark.db`
+- Windows：`%LOCALAPPDATA%\Webmark\webmark.db`
+
+macOS 构建命令为 `./scripts/build_macos.sh`，输出 `dist/Webmark.app`。Windows 可在 GitHub Actions 中手动运行 `Build Windows app`，或者在 Windows 上执行 `scripts/build_windows.ps1`，输出 `dist/Webmark.exe`。
+
 ## 云端部署
 
 前端和后端可分别作为 Vercel 项目部署，云端数据库使用 Turso。部署时需要配置：

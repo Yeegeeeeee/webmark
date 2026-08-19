@@ -1,11 +1,13 @@
-from pathlib import Path
 import os
+from pathlib import Path
 import sqlite3
 
 import libsql
 
 
-DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+DATA_DIR = Path(
+    os.getenv("WEBMARK_DATA_DIR", Path(__file__).resolve().parent.parent / "data")
+)
 DATABASE_PATH = DATA_DIR / "webmark.db"
 DEFAULT_FOLDER_NAME = "未分类"
 
