@@ -4,8 +4,8 @@ Set-Location $ProjectDir
 
 npm --prefix frontend ci
 npm --prefix frontend run build
-py -m pip install -r desktop-requirements.txt
-py -m PyInstaller `
+python -m pip install -r desktop-requirements.txt
+python -m PyInstaller `
   --noconfirm `
   --clean `
   --onefile `

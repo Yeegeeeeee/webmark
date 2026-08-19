@@ -2,9 +2,6 @@ import os
 from pathlib import Path
 import sqlite3
 
-import libsql
-
-
 DATA_DIR = Path(
     os.getenv("WEBMARK_DATA_DIR", Path(__file__).resolve().parent.parent / "data")
 )
@@ -58,6 +55,8 @@ def get_connection() -> ConnectionAdapter:
     auth_token = os.getenv("TURSO_AUTH_TOKEN")
 
     if database_url and auth_token:
+        import libsql
+
         connection = libsql.connect(
             database=database_url,
             auth_token=auth_token,
